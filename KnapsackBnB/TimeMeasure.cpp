@@ -29,7 +29,7 @@ double TimeMeasure::stopTimer()
 	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
 	QueryPerformanceCounter(&li);
 	SetThreadAffinityMask(GetCurrentThread(), oldmask);
-	return 1000*( (double)(li.QuadPart - startTime) / CPUFreq ); //pomno¿one przez 1000, bo milisekundy
+	return 1000*( (double)(li.QuadPart - startTime) / CPUFreq ); //multiplied by 1000, for gain [ms] unit
 }
 double TimeMeasure::getCPUFrequency(){
 	return CPUFreq;

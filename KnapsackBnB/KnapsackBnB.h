@@ -28,7 +28,7 @@ public:
 	KnapsackBnB();						//constructs knapsack with capacity needed to enter later
 	KnapsackBnB(int capacity);			
 	~KnapsackBnB();
-	void bNb();							//main branch&bound algorithm, prints solution on the screen
+	void bNb(bool test = false);		//main branch&bound algorithm, prints solution on the screen
 	void addItem(int size, int benefit);
 	void generate(int _capacity, int _nrOfItems);//generates random instance of problem
 	void showItems();					//returns all items to ostream
@@ -43,5 +43,4 @@ private:
 	vector<int> benefitT;				//array storing benefit of each item
 	int capacity;						//max capacity of knapsack
 	int nrOfItems;						//counter of items
-	TimeMeasure timer;					//utility for performance measuring
 };

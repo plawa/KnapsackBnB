@@ -19,7 +19,7 @@ KnapsackBnB::~KnapsackBnB()
 {
 }
 
-void KnapsackBnB::bNb()
+void KnapsackBnB::bNb(bool test)
 {
 	NodesPriorQueue PQ;
 	node u(-1, 0, 0, nrOfItems);
@@ -61,11 +61,13 @@ void KnapsackBnB::bNb()
 				PQ.push(u);
 		}
 	}
-	cout << endl << " Items taken (descending order):" << endl;
-	for (int i = 0; i < nrOfItems; i++)
-		if (bestItems[i])
-			cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
-	cout << endl << " MaxBenefit: " << maxBenefit << endl << endl << " Steps made: " << steps << endl << endl;
+	if (!test) {
+		cout << endl << " Items taken (descending order):" << endl;
+		for (int i = 0; i < nrOfItems; i++)
+			if (bestItems[i])
+				cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
+		cout << endl << " MaxBenefit: " << maxBenefit << endl << endl << " Steps made: " << steps << endl << endl;
+	}
 }
 
 float KnapsackBnB::bound(node u)
@@ -186,7 +188,7 @@ int KnapsackBnB::getCapacity()
 //
 //*********************************************************************************************
 
-//
+
 //void KnapsackBnB::breadthFirstSearch()
 //{
 //	listToArrays();

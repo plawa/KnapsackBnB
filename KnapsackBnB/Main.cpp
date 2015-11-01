@@ -10,6 +10,7 @@
 			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
 void generateInstance(KnapsackBnB& _knapsack);
+void experiment();
 
 int main()
 {
@@ -22,7 +23,7 @@ int main()
 			cout << MENU;
 			scanf_s("%hhd", &choice);
 			fflush(stdin);
-		} while (choice >= 4);
+		} while (choice >= 5);
 		switch (choice) {
 		case 1:
 			addItem(knapsack);
@@ -34,6 +35,9 @@ int main()
 			break;
 		case 3:
 			knapsack.bNb();
+			break;
+		case 4:
+			experiment();
 			break;
 		case 0:
 			exit(0);
@@ -78,6 +82,32 @@ void generateInstance(KnapsackBnB& _knapsack) {
 	scanf_s("%d", &amount);
 	_knapsack.generate(cap, amount);
 }
+
+void experiment() {
+	const int tests = 100;
+	const int capacity[6] = {200, 200, 200, 200, 200, 200};
+	const int nrOfItems[6] = { 40, 80, 120, 160, 200, 240 };
+	TimeMeasure timer;				//utility for performance measuring
+	KnapsackBnB exKnap;				//new instance for testing
+	double time;					//accumulates time
+
+
+	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++) {
+		time = 0.0;
+		cout << "Capacity: " << capacity[j] << ", items: " << nrOfItems[j] << endl;
+		for (int i = 0; i < tests; i++) {
+			exKnap.generate(capacity[j], nrOfItems[j]);
+			timer.startTimer();
+			exKnap.bNb(true);
+			time += timer.stopTimer();
+		}
+		cout << "AVG Time: " << time / static_cast<double>(tests) << " [ms]" << endl << endl;
+	}
+	
+
+}
+
+
 
 //*********************************************************
 //
