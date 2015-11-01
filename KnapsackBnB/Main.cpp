@@ -7,7 +7,7 @@
 #define MENU " 1. Add item\n"\
 			" 2. Generate an instance of problem\n"\
 			" 3. Solve problem - Branch & Bound algorithm\n"\
-			" 0. Exit\n\n " /
+			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
 void generateInstance(KnapsackBnB& _knapsack);
 

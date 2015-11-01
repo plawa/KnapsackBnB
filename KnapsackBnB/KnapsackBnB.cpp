@@ -2,14 +2,6 @@
 #include "KnapsackBnB.h"
 #include <ctime>
 
-//****************************************
-//            TODO:
-//
-//
-//
-//
-//****************************************
-
 
 //creates new knapsack with default capacity of 0
 KnapsackBnB::KnapsackBnB()
@@ -73,21 +65,21 @@ void KnapsackBnB::bNb()
 	for (int i = 0; i < nrOfItems; i++)
 		if (bestItems[i])
 			cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
-	cout << endl << " MaxBenefit: " << maxBenefit << endl << endl << " Steps made: " << steps << endl;
+	cout << endl << " MaxBenefit: " << maxBenefit << endl << endl << " Steps made: " << steps << endl << endl;
 }
 
 float KnapsackBnB::bound(node u)
 {
-	int  j, k;				//indexes
+	int  j, k;							//indexes
 	int totalSize;
 	float result;
 
-	if (u.size >= capacity) //if size of item is bigger than knapsack's capacity
-		return 0;			//then finish computing the bound
+	if (u.size >= capacity)				//if size of item is bigger than knapsack's capacity
+		return 0;						//then finish computing the bound
 	else
 	{
 		result = static_cast<float>(u.benefit);
-		j = u.level + 1;	//lower level
+		j = u.level + 1;				//lower level
 		totalSize = u.size;
 		while (j < nrOfItems && totalSize + sizeT[j] <= capacity) //add items until the knapsack is full or there is any item left
 		{
@@ -96,9 +88,16 @@ float KnapsackBnB::bound(node u)
 		}
 		k = j;
 		if (k < nrOfItems)
-			result += (capacity - totalSize) * benefitT[k] / sizeT[k]; //takes the franction of item
+			result += (capacity - totalSize) * benefitT[k] / sizeT[k];//takes the franction of item
 		return result;
 	}
+}
+
+void KnapsackBnB::deleteItems()
+{
+	nrOfItems = 0;
+	benefitT.clear();
+	sizeT.clear();
 }
 
 void KnapsackBnB::quickSort(int left, int right) {
@@ -131,7 +130,6 @@ float KnapsackBnB::bnfBySize(int index) {
 
 void KnapsackBnB::addItem(int size, int benefit)
 {
-	
 	sizeT.push_back(size);
 	benefitT.push_back(benefit);
 	nrOfItems++;
@@ -140,11 +138,12 @@ void KnapsackBnB::addItem(int size, int benefit)
 
 void KnapsackBnB::generate(int _capacity, int _nrOfItems)
 {
+	deleteItems();
 	capacity = _capacity;
 	int totalSize = 0;
 	for (int i = 0; i < _nrOfItems - 1; i++) {	//adds one less items than demanded
-		int size = rand() % 20 + 1;		//range: 1-20
-		int benefit = rand() % 50 + 1;	//range: 1-50
+		int size = rand() % 20 + 1;				//range: 1-20
+		int benefit = rand() % 50 + 1;			//range: 1-50
 		addItem(size, benefit);
 		totalSize += size;
 	}
@@ -154,8 +153,8 @@ void KnapsackBnB::generate(int _capacity, int _nrOfItems)
 		addItem(size, benefit);
 	}
 	else {
-		int size = rand() % 20 + 1;		//range: 1-20
-		int benefit = rand() % 50 + 1;	//range: 1-50
+		int size = rand() % 20 + 1;	
+		int benefit = rand() % 50 + 1;
 		addItem(size, benefit);
 	}
 }
@@ -163,7 +162,6 @@ void KnapsackBnB::generate(int _capacity, int _nrOfItems)
 
 void KnapsackBnB::showItems()
 {
-	//quickSort(0, nrOfItems - 1);
 	cout << "\n Knapsack capacity: " << capacity << endl << endl;
 	for (int i = 0; i < nrOfItems; i++)
 		cout << " Benefit: " << benefitT[i] << ", Size: " << sizeT[i] << ", Ben/Size: " << bnfBySize(i) << endl;
