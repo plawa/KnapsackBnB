@@ -7,6 +7,7 @@
 #define MENU " 1. Add item\n"\
 			" 2. Generate an instance of problem\n"\
 			" 3. Solve problem - Branch & Bound algorithm\n"\
+			" 4. Run experiment\n"\
 			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
 void generateInstance(KnapsackBnB& _knapsack);
@@ -85,12 +86,11 @@ void generateInstance(KnapsackBnB& _knapsack) {
 
 void experiment() {
 	const int tests = 100;
-	const int capacity[6] = {200, 200, 200, 200, 200, 200};
-	const int nrOfItems[6] = { 40, 80, 120, 160, 200, 240 };
+	const int capacity[] = {40,  80, 120, 160, 200, 240, 280, 320, 360, 400};
+	const int nrOfItems[] = {200, 200, 200, 200, 200, 200, 200, 200, 200, 200};
 	TimeMeasure timer;				//utility for performance measuring
 	KnapsackBnB exKnap;				//new instance for testing
 	double time;					//accumulates time
-
 
 	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++) {
 		time = 0.0;
@@ -101,10 +101,8 @@ void experiment() {
 			exKnap.bNb(true);
 			time += timer.stopTimer();
 		}
-		cout << "AVG Time: " << time / static_cast<double>(tests) << " [ms]" << endl << endl;
+		printf("AVG Time: %.2f [ms] \n\n", time/static_cast<double>(tests));
 	}
-	
-
 }
 
 
