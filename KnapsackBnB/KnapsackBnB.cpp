@@ -1,3 +1,11 @@
+
+// ***********************************
+//
+// Author: Piotr Lawniczak (209775)
+//		www.piotrlawniczak.eu
+//
+// ***********************************
+
 #include "stdafx.h"
 #include "KnapsackBnB.h"
 #include <ctime>
@@ -70,8 +78,7 @@ void KnapsackBnB::bNb(bool test)
 	}
 }
 
-float KnapsackBnB::bound(node u)
-{
+float KnapsackBnB::bound(node u) {
 	int  j, k;							//indexes
 	int totalSize;
 	float result;

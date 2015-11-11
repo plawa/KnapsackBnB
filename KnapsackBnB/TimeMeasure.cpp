@@ -1,3 +1,11 @@
+
+// ***********************************
+//
+// Author: Piotr Lawniczak (209775)
+//		www.piotrlawniczak.eu
+//
+// ***********************************
+
 #include "TimeMeasure.h"
 #include "stdafx.h"
 #include <Windows.h>

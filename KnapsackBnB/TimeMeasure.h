@@ -1,3 +1,11 @@
+
+// ***********************************
+//
+// Author: Piotr Lawniczak (209775)
+//		www.piotrlawniczak.eu
+//
+// ***********************************
+
 #pragma once
 #include "stdafx.h"
 
