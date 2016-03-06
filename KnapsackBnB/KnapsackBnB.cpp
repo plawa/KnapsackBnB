@@ -15,7 +15,6 @@
 KnapsackBnB::KnapsackBnB()
 {
 	KnapsackBnB(0);
-	
 }
 KnapsackBnB::KnapsackBnB(int capacity_)
 {
@@ -44,23 +43,24 @@ void KnapsackBnB::bNb(bool test)
 		steps++;
 		v = PQ.top();	//take node with best bound
 		PQ.pop();		//remove from queue
-		if (v.bound > maxBenefit) {
+		if (v.bound > maxBenefit) 
+		{
 			u.level = v.level + 1;
 			u.size = v.size + sizeT[u.level];
 			u.benefit = v.benefit + benefitT[u.level];
 			u.itemsTaken = v.itemsTaken;		//copying array of items taken
 			u.itemsTaken[u.level] = true;		//mark u.level-th item as taken
 
-			if (u.size <= capacity && u.benefit > maxBenefit) {
+			if (u.size <= capacity && u.benefit > maxBenefit) 
+			{
 				maxBenefit = u.benefit;
-				for (int i = 0; i <= u.level; i++) {
+				for (int i = 0; i <= u.level; i++) 
 					bestItems[i] = u.itemsTaken[i];
-				}
 			}
 			u.bound = bound(u);
-			if (u.bound > maxBenefit) {
+			if (u.bound > maxBenefit)
 				PQ.push(u);
-			}
+
 			u.size = v.size;
 			u.benefit = v.benefit;
 			u.bound = bound(u);
@@ -69,8 +69,9 @@ void KnapsackBnB::bNb(bool test)
 				PQ.push(u);
 		}
 	}
-	if (!test) {
-		cout << endl << " Items taken (descending order):" << endl;
+	if (!test) 
+	{
+		cout << endl << " Items taken (descending order by Ben/Size):" << endl;
 		for (int i = 0; i < nrOfItems; i++)
 			if (bestItems[i])
 				cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
@@ -78,7 +79,8 @@ void KnapsackBnB::bNb(bool test)
 	}
 }
 
-float KnapsackBnB::bound(node u) {
+float KnapsackBnB::bound(node u) 
+{
 	int  j, k;							//indexes
 	int totalSize;
 	float result;
@@ -109,16 +111,19 @@ void KnapsackBnB::deleteItems()
 	sizeT.clear();
 }
 
-void KnapsackBnB::quickSort(int left, int right) {
+void KnapsackBnB::quickSort(int left, int right) 
+{
 	int i = left;
 	int j = right;
 	float x = bnfBySize((left + right) / 2);
-	do {
+	do 
+	{
 		while (bnfBySize(i) > x)
 			i++;
 		while (bnfBySize(j) < x)
 			j--;
-		if (i <= j) {
+		if (i <= j) 
+		{
 			swap(benefitT[i], benefitT[j]);
 			swap(sizeT[i], sizeT[j]);
 			i++;
