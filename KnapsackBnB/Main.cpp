@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 #include "KnapsackBnB.h"
+#include <thread>
 
 #define INFO "\n ********************************************\n\n"\
 			"  Branch & Bound solver of knapsack problem\n\n"\
@@ -15,11 +16,14 @@
 #define MENU " 1. Add item\n"\
 			" 2. Generate an instance of problem\n"\
 			" 3. Solve problem - Branch & Bound algorithm\n"\
-			" 4. Run experiment\n"\
+			" 4. Run experiment - Single Thread\n"\
+			" 5. Run experiment - Multiple Threads\n"\
 			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
 void generateInstance(KnapsackBnB& _knapsack);
-void experiment();
+void experimentWithSingleThread();
+void experimentWithMultipleThreads();
+void solve(KnapsackBnB knap);
 
 int main()
 {
@@ -32,7 +36,7 @@ int main()
 			cout << MENU;
 			scanf_s("%hhd", &choice);
 			fflush(stdin);
-		} while (choice >= 5);
+		} while (choice >= 6);
 		switch (choice) {
 		case 1:
 			addItem(knapsack);
@@ -46,7 +50,10 @@ int main()
 			knapsack.bNb();
 			break;
 		case 4:
-			experiment();
+			experimentWithSingleThread();
+			break;
+		case 5:
+			experimentWithMultipleThreads();
 			break;
 		case 0:
 			exit(0);
@@ -92,7 +99,7 @@ void generateInstance(KnapsackBnB& _knapsack) {
 	_knapsack.generate(cap, amount);
 }
 
-void experiment() {
+void experimentWithSingleThread() {
 	const int tests = 100;
 	const int capacity[] = {40,  80, 120, 160, 200, 240, 280, 320, 360, 400};
 	const int nrOfItems[] = {200, 200, 200, 200, 200, 200, 200, 200, 200, 200};
@@ -113,6 +120,36 @@ void experiment() {
 	}
 }
 
+void experimentWithMultipleThreads() {
+	const int tests = 100;
+	const int capacity[] = { 40, 80, 120, 160, 200, 240, 280, 320, 360, 400 };
+	const int nrOfItems[] = { 200, 200, 200, 200, 200, 200, 200, 200, 200, 200 };
+	TimeMeasure timer;					//utility for time measuring
+	double time = 0.0;
+	KnapsackBnB exKnap[sizeof(nrOfItems) / sizeof(int)]; //instances of problem
+
+
+	cout << "Generating instances of problem..." << endl;
+	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++){
+		exKnap[j].generate(capacity[j], nrOfItems[j]);
+	}
+	cout << endl << "All instances were successfully generated. ";
+	system("pause");
+	cout << "Solving started!" << endl;
+
+	timer.startTimer();
+	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++) {
+		cout << j << ". Instance. Capacity: " << capacity[j] << ", items: " << nrOfItems[j] << endl;
+		new thread(solve, exKnap[j]);
+	}
+	time = timer.stopTimer();
+	printf("\nMULTIPLE THREADS. Overall Time: %.2f [ms] \n\n", time);
+}
+
+void solve(KnapsackBnB knap){
+	knap.bNb(true);
+	return;
+}
 
 
 //*********************************************************
