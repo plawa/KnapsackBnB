@@ -99,31 +99,11 @@ void generateInstance(KnapsackBnB& _knapsack) {
 	_knapsack.generate(cap, amount);
 }
 
+
+const int capacity[] = { 40, 80, 120, 160, 200, 240, 280, 320, 360, 400 };
+const int nrOfItems[] = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
+
 void experimentWithSingleThread() {
-	const int tests = 100;
-	const int capacity[] = {40,  80, 120, 160, 200, 240, 280, 320, 360, 400};
-	const int nrOfItems[] = {200, 200, 200, 200, 200, 200, 200, 200, 200, 200};
-	TimeMeasure timer;				//utility for performance measuring
-	KnapsackBnB exKnap;				//new instance for testing
-	double time;					//accumulates time
-
-	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++) {
-		time = 0.0;
-		cout << "Capacity: " << capacity[j] << ", items: " << nrOfItems[j] << endl;
-		for (int i = 0; i < tests; i++) {
-			exKnap.generate(capacity[j], nrOfItems[j]);
-			timer.startTimer();
-			exKnap.bNb(true);
-			time += timer.stopTimer();
-		}
-		printf("AVG Time: %.2f [ms] \n\n", time/static_cast<double>(tests));
-	}
-}
-
-void experimentWithMultipleThreads() {
-	const int tests = 100;
-	const int capacity[] = { 40, 80, 120, 160, 200, 240, 280, 320, 360, 400 };
-	const int nrOfItems[] = { 200, 200, 200, 200, 200, 200, 200, 200, 200, 200 };
 	TimeMeasure timer;					//utility for time measuring
 	double time = 0.0;
 	KnapsackBnB exKnap[sizeof(nrOfItems) / sizeof(int)]; //instances of problem
@@ -140,14 +120,53 @@ void experimentWithMultipleThreads() {
 	timer.startTimer();
 	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++) {
 		cout << j << ". Instance. Capacity: " << capacity[j] << ", items: " << nrOfItems[j] << endl;
-		new thread(solve, exKnap[j]);
+		solve(exKnap[j]);
 	}
+	time = timer.stopTimer();
+	printf("\nSINGLE THREAD. Overall Time: %.2f [ms] \n\n", time);
+}
+
+void experimentWithMultipleThreads() {
+	TimeMeasure timer;					//utility for time measuring
+	double time = 0.0;
+	thread *watek;
+	KnapsackBnB exKnap[sizeof(nrOfItems) / sizeof(int)]; //instances of problem
+
+	cout << "Generating instances of problem..." << endl;
+	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++){
+		exKnap[j].generate(capacity[j], nrOfItems[j]);
+	}
+	cout << endl << "All instances were successfully generated. ";
+	system("pause");
+	cout << "Solving started!" << endl;
+
+	timer.startTimer();
+	watek = new thread(solve, exKnap[9]);
+	watek->join();
+	watek = new thread(solve, exKnap[8]);
+	watek->join();
+	watek = new thread(solve, exKnap[7]);
+	watek->join();
+	watek = new thread(solve, exKnap[6]);
+	watek->join();
+	watek = new thread(solve, exKnap[5]);
+	watek->join();
+	watek = new thread(solve, exKnap[4]);
+	watek->join();
+	watek = new thread(solve, exKnap[3]);
+	watek->join();
+	watek = new thread(solve, exKnap[2]);
+	watek->join();
+	watek = new thread(solve, exKnap[1]);
+	watek->join();
+	watek = new thread(solve, exKnap[0]);
+	watek->join();
 	time = timer.stopTimer();
 	printf("\nMULTIPLE THREADS. Overall Time: %.2f [ms] \n\n", time);
 }
 
 void solve(KnapsackBnB knap){
-	knap.bNb(true);
+	knap.bNb();
 	return;
 }
 
