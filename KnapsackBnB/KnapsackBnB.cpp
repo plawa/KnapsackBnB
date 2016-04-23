@@ -71,10 +71,10 @@ void KnapsackBnB::bNb(bool test)
 	}
 	if (!test) 
 	{
-		/*cout << endl << " Items taken (descending order by Ben/Size):" << endl;
-		for (int i = 0; i < nrOfItems; i++)
-			if (bestItems[i])
-				cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;*/
+		//cout << endl << " Items taken (descending order by Ben/Size):" << endl;
+		//for (int i = 0; i < nrOfItems; i++)
+		//	if (bestItems[i])
+		//		cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
 		cout << endl << " MaxBenefit: " << maxBenefit << endl << endl << " Steps made: " << steps << endl << endl;
 	}
 }
@@ -147,7 +147,7 @@ void KnapsackBnB::addItem(int size, int benefit)
 	sizeT.push_back(size);
 	benefitT.push_back(benefit);
 	nrOfItems++;
-	quickSort(0, nrOfItems - 1);
+	//quickSort(0, nrOfItems - 1);
 }
 
 void KnapsackBnB::generate(int _capacity, int _nrOfItems)
