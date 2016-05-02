@@ -19,6 +19,7 @@
 			" 4. Generate instances for experiment\n"\
 			" 5. Run experiment - Single Thread\n"\
 			" 6. Run experiment - Multiple Threads\n"\
+			" 7. Brute Force\n"\
 			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
 void generateInstance(KnapsackBnB& _knapsack);
@@ -26,6 +27,7 @@ void generateForExperiment();
 void experimentWithSingleThread();
 void experimentWithMultipleThreads();
 void solve(KnapsackBnB knap);
+void bruteForce(KnapsackBnB knap);
 
 int main()
 {
@@ -38,7 +40,7 @@ int main()
 			cout << MENU;
 			scanf_s("%hhd", &choice);
 			fflush(stdin);
-		} while (choice > 6);
+		} while (choice > 7);
 		switch (choice) {
 		case 1:
 			addItem(knapsack);
@@ -59,6 +61,9 @@ int main()
 			break;
 		case 6:
 			experimentWithMultipleThreads();
+			break;
+		case 7:
+			cout << knapsack.bruteForce();
 			break;
 		case 0:
 			exit(0);

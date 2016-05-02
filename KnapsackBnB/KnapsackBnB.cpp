@@ -142,6 +142,33 @@ float KnapsackBnB::bnfBySize(int index) {
 	return static_cast<float>(benefitT[index]) / static_cast<float>(sizeT[index]);
 }
 
+int KnapsackBnB::bruteForce(){
+	int bestBenefit = 0;
+	vector<bool> bestSet(nrOfItems);
+	vector<bool> permutations(nrOfItems);
+	permutations.assign(nrOfItems, false);
+	for (int i = 0; i < pow(2, nrOfItems); i++){
+		int j = nrOfItems-1, tempSize = 0, tempBenefit = 0;
+		while (permutations[j] && j > 0){
+			permutations[j] = false;
+			j--;
+		}
+		permutations[j] = true;
+		for (int k = 0; k < nrOfItems; k++){
+			if (permutations[k]){
+				tempSize = tempSize + sizeT[k];
+				tempBenefit = tempBenefit + benefitT[k];
+			}
+		}
+		if (tempBenefit > bestBenefit && tempSize <= capacity){
+			bestBenefit = tempBenefit;
+			bestSet = permutations;
+		}
+	}
+	return bestBenefit;
+}
+
+
 void KnapsackBnB::addItem(int size, int benefit)
 {
 	sizeT.push_back(size);
