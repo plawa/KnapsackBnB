@@ -28,6 +28,7 @@ KnapsackBnB::~KnapsackBnB()
 
 void KnapsackBnB::bNb(bool test)
 {
+	quickSort(0, nrOfItems - 1);
 	NodesPriorQueue PQ;
 	node u(-1, 0, 0, nrOfItems);
 	node v(-1, 0, 0, nrOfItems);		//root: level = -1, because of array index starts from 0

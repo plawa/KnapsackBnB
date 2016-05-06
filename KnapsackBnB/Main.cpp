@@ -16,16 +16,18 @@
 #define MENU " 1. Add item\n"\
 			" 2. Generate an instance of problem\n"\
 			" 3. Solve problem - Branch & Bound algorithm\n"\
-			" 4. Generate instances for experiment\n"\
-			" 5. Run experiment - Single Thread\n"\
-			" 6. Run experiment - Multiple Threads\n"\
-			" 7. Brute Force\n"\
+			" 4. Solve problem - Brute Force\n"\
+			" 5. Generate instances for experiment\n"\
+			" 6. Run experiment - Single Thread\n"\
+			" 7. Run experiment - Multiple Threads\n"\
+			" 8. Run experiment - Brute Force (Single Thread)\n"\
 			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
 void generateInstance(KnapsackBnB& _knapsack);
 void generateForExperiment();
 void experimentWithSingleThread();
 void experimentWithMultipleThreads();
+void experimentBruteForce();
 void solve(KnapsackBnB knap);
 void bruteForce(KnapsackBnB knap);
 
@@ -40,7 +42,7 @@ int main()
 			cout << MENU;
 			scanf_s("%hhd", &choice);
 			fflush(stdin);
-		} while (choice > 7);
+		} while (choice > 8);
 		switch (choice) {
 		case 1:
 			addItem(knapsack);
@@ -54,16 +56,19 @@ int main()
 			knapsack.bNb();
 			break;
 		case 4:
-			generateForExperiment();
+			cout << "Max Benefit: " << knapsack.bruteForce() << endl;
 			break;
 		case 5:
-			experimentWithSingleThread();
+			generateForExperiment();
 			break;
 		case 6:
-			experimentWithMultipleThreads();
+			experimentWithSingleThread();
 			break;
 		case 7:
-			cout << knapsack.bruteForce();
+			experimentWithMultipleThreads();
+			break;
+		case 8:
+			experimentBruteForce();
 			break;
 		case 0:
 			exit(0);
@@ -109,8 +114,8 @@ void generateInstance(KnapsackBnB& _knapsack) {
 }
 
 
-const int capacity[] = { 10040, 10080, 11020, 11600, 12000 };
-const int nrOfItems[] = { 1000, 1000, 1000, 1000, 1000 };
+const int capacity[] = { 140, 180, 110, 100, 120 };
+const int nrOfItems[] = { 10, 10, 10, 15, 15 };
 const int nrOfInstances = sizeof(nrOfItems) / sizeof(int);
 KnapsackBnB exKnap[sizeof(nrOfItems) / sizeof(int)]; //instances of problem
 bool generated = false;
@@ -162,6 +167,24 @@ void experimentWithMultipleThreads() {
 
 	time = timer.stopTimer();
 	printf("\n MULTIPLE THREADS. Overall Time: %.2f [ms] \n\n", time);
+}
+
+void experimentBruteForce() {
+	if (!generated) {
+		cout << " Error. First you have to generate instances for experiment!" << endl << endl;
+		return;
+	}
+	TimeMeasure timer;				   //utility for time measuring
+	double time = 0.0;
+
+	cout << " Solving started!" << endl;
+	timer.startTimer();
+
+	for (int i = 0; i < nrOfInstances; i++)
+		exKnap[i].bruteForce();
+
+	time = timer.stopTimer();
+	printf("\n BRUTE FORCE (SINGLE THREAD). Overall Time: %.2f [ms] \n\n", time);
 }
 
 void solve(KnapsackBnB knap){
