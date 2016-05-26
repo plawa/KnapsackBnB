@@ -1,8 +1,8 @@
 
 // ***********************************
 //
-// Author: Piotr Lawniczak (209775)
-//		www.piotrlawniczak.eu
+//		Author: Piotr £awniczak
+//		 www.piotrlawniczak.eu
 //
 // ***********************************
 
@@ -12,14 +12,15 @@
 
 #define INFO "\n ********************************************\n\n"\
 			"  Branch & Bound solver of knapsack problem\n\n"\
+			"  \tAuthor: www.piotrlawniczak.eu\n\n"\
 			" ********************************************\n\n"
-#define MENU " 1. Add item\n"\
-			" 2. Generate an instance of problem\n"\
+#define MENU " 1. Add items (and initialize knapsack if not already)\n"\
+			" 2. Generate an instance of problem - for validation purposes\n"\
 			" 3. Solve problem - Branch & Bound algorithm\n"\
 			" 4. Solve problem - Brute Force\n"\
-			" 5. Generate instances for experiment\n"\
-			" 6. Run experiment - Single Thread\n"\
-			" 7. Run experiment - Multiple Threads\n"\
+			" 5. Generate many instances for experiment\n"\
+			" 6. Run experiment - B&B Single Thread\n"\
+			" 7. Run experiment - B&B Multiple Threads\n"\
 			" 8. Run experiment - Brute Force (Single Thread)\n"\
 			" 0. Exit\n\n "
 void addItem(KnapsackBnB& _knapsack);
@@ -29,7 +30,6 @@ void experimentWithSingleThread();
 void experimentWithMultipleThreads();
 void experimentBruteForce();
 void solve(KnapsackBnB knap);
-void bruteForce(KnapsackBnB knap);
 
 int main()
 {
@@ -56,7 +56,7 @@ int main()
 			knapsack.bNb();
 			break;
 		case 4:
-			cout << "Max Benefit: " << knapsack.bruteForce() << endl;
+			knapsack.bruteForce();
 			break;
 		case 5:
 			generateForExperiment();
@@ -78,9 +78,6 @@ int main()
 		fflush(stdin);
 	}
 
-	knapsack.showItems();
-	knapsack.bNb();
-	getchar();
 	return 0;
 }
 
@@ -122,9 +119,8 @@ bool generated = false;
 
 void generateForExperiment(){
 	cout << " Generating instances of problem..." << endl;
-	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++){
+	for (int j = 0; j < sizeof(nrOfItems) / sizeof(int); j++)
 		exKnap[j].generate(capacity[j], nrOfItems[j]);
-	}
 	generated = true;
 	cout << endl << " All instances were successfully generated. You can now start an experiment." << endl << endl << " ";
 	system("pause");
@@ -140,16 +136,15 @@ void experimentWithSingleThread() {
 
 	cout << " Solving started!" << endl;
 	timer.startTimer();
-	for (int j = 0; j < nrOfInstances; j++) {
+	for (int j = 0; j < nrOfInstances; j++)
 		solve(exKnap[j]);
-	}
 	time = timer.stopTimer();
 	printf("\n SINGLE THREAD. Overall Time: %.2f [ms] \n\n", time);
 }
 
 void experimentWithMultipleThreads() {
 	if (!generated) {
-		cout << " Error. First you have to generate instances for experiment!" << endl << endl;
+		cout << " Error. You have to generate instances for experiment at first!" << endl << endl;
 		return;
 	}
 	TimeMeasure timer;				   //utility for time measuring
@@ -171,7 +166,7 @@ void experimentWithMultipleThreads() {
 
 void experimentBruteForce() {
 	if (!generated) {
-		cout << " Error. First you have to generate instances for experiment!" << endl << endl;
+		cout << " Error. You have to generate instances for experiment at first!" << endl << endl;
 		return;
 	}
 	TimeMeasure timer;				   //utility for time measuring
@@ -181,14 +176,14 @@ void experimentBruteForce() {
 	timer.startTimer();
 
 	for (int i = 0; i < nrOfInstances; i++)
-		exKnap[i].bruteForce();
+		exKnap[i].bruteForce(true);
 
 	time = timer.stopTimer();
 	printf("\n BRUTE FORCE (SINGLE THREAD). Overall Time: %.2f [ms] \n\n", time);
 }
 
 void solve(KnapsackBnB knap){
-	knap.bNb();
+	knap.bNb(true);
 	return;
 }
 

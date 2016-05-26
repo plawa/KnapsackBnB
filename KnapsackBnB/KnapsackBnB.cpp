@@ -72,10 +72,10 @@ void KnapsackBnB::bNb(bool test)
 	}
 	if (!test) 
 	{
-		//cout << endl << " Items taken (descending order by Ben/Size):" << endl;
-		//for (int i = 0; i < nrOfItems; i++)
-		//	if (bestItems[i])
-		//		cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
+		cout << endl << " Items taken (descending order by Ben/Size):" << endl;
+		for (int i = 0; i < nrOfItems; i++)
+			if (bestItems[i])
+				cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
 		cout << endl << " MaxBenefit: " << maxBenefit << endl << endl << " Steps made: " << steps << endl << endl;
 	}
 }
@@ -143,7 +143,7 @@ float KnapsackBnB::bnfBySize(int index) {
 	return static_cast<float>(benefitT[index]) / static_cast<float>(sizeT[index]);
 }
 
-int KnapsackBnB::bruteForce(){
+void KnapsackBnB::bruteForce(bool test){
 	int bestBenefit = 0;
 	vector<bool> bestSet(nrOfItems);
 	vector<bool> permutations(nrOfItems);
@@ -166,7 +166,14 @@ int KnapsackBnB::bruteForce(){
 			bestSet = permutations;
 		}
 	}
-	return bestBenefit;
+	if (!test) 
+	{
+		cout << endl << " Items taken:" << endl;
+		for (int i = 0; i < nrOfItems; i++)
+			if (bestSet[i])
+				cout << " Benefit: " << benefitT[i] << ", size: " << sizeT[i] << endl;
+		cout << endl << " MaxBenefit: " << bestBenefit << endl << endl;
+	}
 }
 
 
@@ -175,7 +182,7 @@ void KnapsackBnB::addItem(int size, int benefit)
 	sizeT.push_back(size);
 	benefitT.push_back(benefit);
 	nrOfItems++;
-	//quickSort(0, nrOfItems - 1);
+	//quickSort(0, nrOfItems - 1);	//sorts elements while adding (not necessary)
 }
 
 void KnapsackBnB::generate(int _capacity, int _nrOfItems)
@@ -200,6 +207,7 @@ void KnapsackBnB::generate(int _capacity, int _nrOfItems)
 		addItem(size, benefit);
 	}
 }
+
 
 
 void KnapsackBnB::showItems()

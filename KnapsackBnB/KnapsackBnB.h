@@ -37,7 +37,7 @@ public:
 	KnapsackBnB(int capacity);			
 	~KnapsackBnB();
 	void bNb(bool test = false);		//main branch&bound algorithm, prints solution on the screen if test is set to false (default)
-	int bruteForce();
+	void bruteForce(bool test = false);
 	void addItem(int size, int benefit);
 	void generate(int _capacity, int _nrOfItems);//generates random instance of problem
 	void showItems();					//prints all items to ostream
